@@ -2,7 +2,7 @@ import '../models/sucursal.dart';
 import 'api_service.dart';
 
 class SucursalService {
-  final ApiService _api = ApiService();
+  final ApiService _api = ApiService(baseUrl: 'PENDIENTE_A_TU_API_URL');
 
   Future<List<Sucursal>> getSucursales() async {
     try {

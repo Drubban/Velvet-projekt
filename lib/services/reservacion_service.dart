@@ -2,7 +2,7 @@ import '../models/reservacion.dart';
 import 'api_service.dart';
 
 class ReservacionService {
-  final ApiService _api = ApiService();
+  final ApiService _api = ApiService(baseUrl: 'PENDIENTE_A_TU_API_URL');
 
   Future<List<Reservacion>> getReservaciones() async {
     try {

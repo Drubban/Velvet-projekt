@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../models/tipo_reservacion.dart';
-import '../services/tipo_reservacion_service.dart';
-import 'tipo_form.dart';
+import 'package:velvet_projekt/models/tipo_reservacion.dart';
+import 'package:velvet_projekt/services/tipo_reservacion_service.dart';
+import 'package:velvet_projekt/views/tipos_reservacion/tipo_form.dart';
 
 class TiposReservacionView extends StatefulWidget {
   @override

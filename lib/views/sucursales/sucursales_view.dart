@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../models/sucursal.dart';
-import '../services/sucursal_service.dart';
-import 'sucursal_form.dart';
-import 'direccion_modal.dart';
+import 'package:velvet_projekt/models/sucursal.dart';
+import 'package:velvet_projekt/services/sucursal_service.dart';
+import 'package:velvet_projekt/views/sucursales/sucursal_form.dart';
+import 'package:velvet_projekt/views/sucursales/direccion_modal.dart';
 
 class SucursalesView extends StatefulWidget {
   @override

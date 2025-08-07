@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../models/cliente.dart';
-import '../models/reservacion.dart';
-import '../models/sucursal.dart';
-import '../models/salon.dart';
-import '../models/mesa.dart';
-import '../models/tipo_reservacion.dart';
-import '../services/cliente_service.dart';
-import '../services/sucursal_service.dart';
-import '../services/tipo_reservacion_service.dart';
-import '../services/reservacion_service.dart';
-import 'cliente_modal.dart';
+import 'package:velvet_projekt/models/cliente.dart';
+import 'package:velvet_projekt/models/reservacion.dart';
+import 'package:velvet_projekt/models/sucursal.dart';
+import 'package:velvet_projekt/models/salon.dart';
+import 'package:velvet_projekt/models/mesa.dart';
+import 'package:velvet_projekt/models/tipo_reservacion.dart';
+import 'package:velvet_projekt/services/cliente_service.dart';
+import 'package:velvet_projekt/services/mesa_service.dart';
+import 'package:velvet_projekt/services/salon_service.dart';
+import 'package:velvet_projekt/services/sucursal_service.dart';
+import 'package:velvet_projekt/services/tipo_reservacion_service.dart';
+import 'package:velvet_projekt/services/reservacion_service.dart';
+import 'package:velvet_projekt/views/reservaciones/cliente_modal.dart';
 
 class ReservacionForm extends StatefulWidget {
   final Reservacion? reservacion;
@@ -42,14 +44,14 @@ class _ReservacionFormState extends State<ReservacionForm> {
   void initState() {
     super.initState();
     _reservacion = widget.reservacion ?? Reservacion(
-      cliente: Cliente(nombre: ''),
-      sucursal: Sucursal(nombre: ''),
+      cliente: Cliente(nombre: '', email: '', telefono: ''),
+      sucursal: Sucursal(nombre: '', direccion: null, telefono: ''),
       salon: Salon(nombre: '', descripcion: '', capacidad: 0, sucursalId: 0),
       mesa: Mesa(numero: '0', capacidad: 0, salonId: 0),
       tipo: TipoReservacion(nombre: ''),
       fecha: DateTime.now(),
+      observaciones: '',
     );
-    
     _loadDependencias();
   }
 
