@@ -72,7 +72,7 @@ class _ReservacionesViewState extends State<ReservacionesView> {
                 return Card(
                   child: ListTile(
                     title: Text('Reservación #${reservacion.id}'),
-                    subtitle: Text('Cliente: ${reservacion.cliente?.nombre} - Fecha: ${reservacion.fecha}'),
+                    subtitle: Text('Cliente: ${reservacion.cliente.nombre} - Fecha: ${reservacion.fecha}'),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
