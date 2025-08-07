@@ -38,7 +38,7 @@ class _DireccionModalState extends State<DireccionModal> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Agregar Dirección', style: Theme.of(context).textTheme.headline6),
+              Text('Agregar Dirección', style: Theme.of(context).textTheme.titleLarge),
               SizedBox(height: 16),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Calle'),

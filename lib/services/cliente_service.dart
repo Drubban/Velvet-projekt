@@ -2,7 +2,7 @@ import '../models/cliente.dart';
 import 'api_service.dart';
 
 class ClienteService {
-  final ApiService _api = ApiService();
+  final ApiService _api = ApiService(baseUrl: 'PENDIENTE_A_TU_API_URL');
 
   Future<List<Cliente>> getClientes() async {
     try {

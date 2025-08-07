@@ -23,7 +23,7 @@ class _MesasModalState extends State<MesasModal> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Agregar Mesas', style: Theme.of(context).textTheme.headline6),
+            Text('Agregar Mesas', style: Theme.of(context).textTheme.titleLarge),
             SizedBox(height: 16),
             Row(
               children: [

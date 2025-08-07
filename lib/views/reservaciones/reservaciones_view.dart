@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../models/reservacion.dart';
-import '../services/reservacion_service.dart';
-import 'reservacion_form.dart';
-import 'cliente_modal.dart';
-import 'reservacion_details.dart';
+import 'package:velvet_projekt/models/reservacion.dart';
+import 'package:velvet_projekt/services/reservacion_service.dart';
+import 'package:velvet_projekt/views/reservaciones/reservacion_form.dart';
+import 'package:velvet_projekt/views/reservaciones/cliente_modal.dart';
+import 'package:velvet_projekt/views/reservaciones/reservacion_details.dart';
 
 class ReservacionesView extends StatefulWidget {
   @override
