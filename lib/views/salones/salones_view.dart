@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../models/salon.dart';
-import '../models/sucursal.dart';
-import '../services/salon_service.dart';
-import 'salon_form.dart';
-import 'mesas_modal.dart';
+import 'package:velvet_projekt/models/salon.dart';
+import 'package:velvet_projekt/models/sucursal.dart';
+import 'package:velvet_projekt/services/salon_service.dart';
+import 'package:velvet_projekt/views/salones/salon_form.dart';
+import 'package:velvet_projekt/views/salones/mesas_modal.dart';
 
 class SalonesView extends StatefulWidget {
   final Sucursal sucursal;

@@ -2,7 +2,7 @@ import '../models/salon.dart';
 import 'api_service.dart';
 
 class SalonService {
-  final ApiService _api = ApiService();
+  final ApiService _api = ApiService(baseUrl: 'PENDIENTE_A_TU_API_URL');
 
   Future<List<Salon>> getSalonesPorSucursal(int sucursalId) async {
     try {

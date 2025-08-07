@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../models/cliente.dart';
-import '../../services/cliente_service.dart';
+import 'package:velvet_projekt/models/cliente.dart';
+import 'package:velvet_projekt/services/cliente_service.dart';
 
 class ClienteModal extends StatefulWidget {
   @override
@@ -10,7 +10,7 @@ class ClienteModal extends StatefulWidget {
 class _ClienteModalState extends State<ClienteModal> {
   final _formKey = GlobalKey<FormState>();
   final _clienteService = ClienteService();
-  final _cliente = Cliente();
+  final _cliente = Cliente(nombre: '', email: '', telefono: '');
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class _ClienteModalState extends State<ClienteModal> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Agregar Cliente', style: Theme.of(context).textTheme.headline6),
+              Text('Agregar Cliente', style: Theme.of(context).textTheme.titleLarge),
               SizedBox(height: 16),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Nombre'),

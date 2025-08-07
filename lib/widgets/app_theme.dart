@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'constants.dart';
+import 'package:velvet_projekt/widgets/constants.dart';
 
 final appTheme = ThemeData(
   primaryColor: AppConstants.primaryColor,
@@ -20,7 +20,7 @@ final appTheme = ThemeData(
     ),
     iconTheme: IconThemeData(color: Colors.white),
   ),
-  cardTheme: CardTheme(
+  cardTheme: CardThemeData(
     elevation: 2,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(AppConstants.defaultBorderRadius),

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'constants.dart';
-import 'services/api_service.dart';
-import 'views/main_navigation.dart';
+import 'package:velvet_projekt/widgets/app_theme.dart';
+import 'package:velvet_projekt/widgets/constants.dart';
+import 'package:velvet_projekt/services/api_service.dart';
+import 'package:velvet_projekt/views/main_navigation.dart';
+import 'package:velvet_projekt/views/clientes/clientes_view.dart';
+import 'package:velvet_projekt/views/sucursales/sucursales_view.dart';
+import 'package:velvet_projekt/views/reservaciones/reservaciones_view.dart';
 
 void main() {
   runApp(
@@ -23,26 +27,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: AppConstants.appName,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        appBarTheme: AppBarTheme(
-          elevation: 0,
-          centerTitle: true,
-          backgroundColor: AppConstants.primaryColor,
-          titleTextStyle: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-          iconTheme: IconThemeData(color: Colors.white),
-        ),
-      ),
+      theme: appTheme,
       home: MainNavigation(),
       routes: {
-        AppConstants.clientesRoute: (context) => ClientesView(),
-        AppConstants.sucursalesRoute: (context) => SucursalesView(),
-        AppConstants.reservacionesRoute: (context) => ReservacionesView(),
+        if (AppConstants.clientesRoute != null)
+          AppConstants.clientesRoute: (context) => ClientesView(),
+        if (AppConstants.sucursalesRoute != null)
+          AppConstants.sucursalesRoute: (context) => SucursalesView(),
+        if (AppConstants.reservacionesRoute != null)
+          AppConstants.reservacionesRoute: (context) => ReservacionesView(),
       },
       debugShowCheckedModeBanner: false,
     );

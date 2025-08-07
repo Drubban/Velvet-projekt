@@ -2,7 +2,7 @@ import '../models/mesa.dart';
 import 'api_service.dart';
 
 class MesaService {
-  final ApiService _api = ApiService();
+  final ApiService _api = ApiService(baseUrl: 'PENDIENTE_A_TU_API_URL');
 
   Future<List<Mesa>> getMesasPorSalon(int salonId) async {
     try {

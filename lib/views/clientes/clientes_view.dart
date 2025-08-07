@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../models/cliente.dart';
-import '../services/cliente_service.dart';
-import 'cliente_details.dart';
+import 'package:velvet_projekt/models/cliente.dart';
+import 'package:velvet_projekt/services/cliente_service.dart';
+import 'package:velvet_projekt/views/clientes/cliente_details.dart';
 
 class ClientesView extends StatefulWidget {
   @override
@@ -42,8 +42,8 @@ class _ClientesViewState extends State<ClientesView> {
           rows: _clientes.map((cliente) {
             return DataRow(cells: [
               DataCell(Text(cliente.nombre)),
-              DataCell(Text(cliente.email)),
-              DataCell(Text(cliente.telefono)),
+              DataCell(Text(cliente.email ?? '')),
+              DataCell(Text(cliente.telefono ?? '')),
               DataCell(Row(
                 children: [
                   IconButton(

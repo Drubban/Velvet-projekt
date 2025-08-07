@@ -3,9 +3,28 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 
 class ApiService {
+  Future<dynamic> put(String endpoint, {dynamic data}) async {
+    try {
+      final headers = {
+        'Content-Type': 'application/json',
+        if (apiKey.isNotEmpty) 'Authorization': 'ApiKey $apiKey',
+        if (jwtToken.isNotEmpty) 'Authorization': 'Bearer $jwtToken',
+      };
+
+      final response = await http.put(
+        Uri.parse('$baseUrl$endpoint'),
+        headers: headers,
+        body: jsonEncode(data),
+      );
+      return _handleResponse(response);
+    } catch (e) {
+      debugPrint('Error en PUT $endpoint: $e');
+      rethrow;
+    }
+  }
   final String baseUrl;
   final String apiKey;
-  final String jwtToken; // Para autenticación JWT
+  String jwtToken; // Para autenticación JWT
 
   ApiService({
     required this.baseUrl,
@@ -93,4 +112,22 @@ class UnauthorizedException implements Exception {
   UnauthorizedException(this.message);
 }
 
-// ... otras excepciones similares
+class ForbiddenException implements Exception {
+  final String message;
+  ForbiddenException(this.message);
+}
+
+class NotFoundException implements Exception {
+  final String message;
+  NotFoundException(this.message);
+}
+
+class ServerException implements Exception {
+  final String message;
+  ServerException(this.message);
+}
+
+class FetchDataException implements Exception {
+  final String message;
+  FetchDataException(this.message);
+}
