@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/cliente.dart';
+import '../../models/reservacion.dart';
+import '../../services/reservacion_service.dart';
 
 class ClienteDetails extends StatelessWidget {
   final Cliente cliente;
@@ -8,9 +10,6 @@ class ClienteDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Simulación de historial vacío, reemplaza por tu lógica real
-    final List historialReservaciones = [];
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Detalles del Cliente'),
@@ -22,17 +21,46 @@ class ClienteDetails extends StatelessWidget {
           children: [
             Text('Nombre: ${cliente.nombre}', style: TextStyle(fontSize: 18)),
             SizedBox(height: 8),
-            if (cliente.email != null) Text('Email: ${cliente.email}'),
+            if (cliente.correo != null) Text('Email: ${cliente.correo}'),
             if (cliente.telefono != null) Text('Teléfono: ${cliente.telefono}'),
             SizedBox(height: 20),
             Text('Historial de Reservaciones', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             SizedBox(height: 8),
-            if (historialReservaciones.isEmpty)
-              Text('No hay registros', style: TextStyle(color: Colors.grey)),
-            // Si tienes datos, aquí iría la lista
+            Expanded(
+              child: FutureBuilder<List<Reservacion>>(
+                future: _getHistorialReservaciones(cliente.id),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Text('No hay registros', style: TextStyle(color: Colors.grey));
+                  }
+                  final historial = snapshot.data!;
+                  return ListView.builder(
+                    itemCount: historial.length,
+                    itemBuilder: (context, index) {
+                      final Reservacion reservacion = historial[index];
+                      return Card(
+                        child: ListTile(
+                          title: Text('Fecha: ${reservacion.fecha.toString().substring(0, 16)}'),
+                          subtitle: Text('Estado: ${reservacion.estado}'),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  Future<List<Reservacion>> _getHistorialReservaciones(int? clienteId) async {
+    if (clienteId == null) return [];
+    final service = ReservacionService();
+    return await service.getHistorialReservaciones(clienteId);
   }
 }

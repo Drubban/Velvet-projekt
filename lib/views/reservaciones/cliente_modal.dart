@@ -10,7 +10,7 @@ class ClienteModal extends StatefulWidget {
 class _ClienteModalState extends State<ClienteModal> {
   final _formKey = GlobalKey<FormState>();
   final _clienteService = ClienteService();
-  final _cliente = Cliente(nombre: '', email: '', telefono: '');
+  final _cliente = Cliente(nombre: '', correo: '', telefono: '');
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class _ClienteModalState extends State<ClienteModal> {
               TextFormField(
                 decoration: InputDecoration(labelText: 'Email'),
                 keyboardType: TextInputType.emailAddress,
-                onSaved: (value) => _cliente.email = value,
+                onSaved: (value) => _cliente.correo = value,
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Teléfono'),

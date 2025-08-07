@@ -1,22 +1,25 @@
 class Cliente {
   int? id;
   String nombre;
-  String? email;
+  String? correo;
   String? telefono;
+  String? direccion;
 
   Cliente({
     this.id,
     required this.nombre,
-    this.email,
+    this.correo,
     this.telefono,
+    this.direccion,
   });
 
   factory Cliente.fromJson(Map<String, dynamic> json) {
     return Cliente(
       id: json['id'],
       nombre: json['nombre'],
-      email: json['email'],
+      correo: json['correo'],
       telefono: json['telefono'],
+      direccion: json['direccion'],
     );
   }
 
@@ -24,8 +27,9 @@ class Cliente {
     return {
       'id': id,
       'nombre': nombre,
-      'email': email,
+      'correo': correo,
       'telefono': telefono,
+      'direccion': direccion,
     };
   }
 }

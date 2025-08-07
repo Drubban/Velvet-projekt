@@ -70,45 +70,48 @@ class _TiposReservacionViewState extends State<TiposReservacionView> {
       floatingActionButton: FloatingActionButton(
         onPressed: _addTipo,
         child: Icon(Icons.add),
+        tooltip: 'Agregar tipo de reservación',
       ),
-      body: ListView.builder(
-        itemCount: _tipos.length,
-        itemBuilder: (context, index) {
-          final tipo = _tipos[index];
-          return ListTile(
-            title: Text(tipo.nombre),
-            subtitle: Text(tipo.descripcion ?? ''),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (tipo.precioBase != null)
-                  Chip(label: Text('\$${tipo.precioBase!.toStringAsFixed(2)}')),
-                IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => TipoForm(tipo: tipo),
-                      ),
-                    ).then((result) {
-                      if (result == true) _loadTipos();
-                    });
-                  },
+      body: _tipos.isEmpty
+          ? Center(child: Text('No hay registros', style: TextStyle(color: Colors.grey)))
+          : ListView.builder(
+            itemCount: _tipos.length,
+            itemBuilder: (context, index) {
+              final tipo = _tipos[index];
+              return ListTile(
+                title: Text(tipo.nombre),
+                subtitle: Text(tipo.descripcion ?? ''),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (tipo.precioBase != null)
+                      Chip(label: Text('\$${tipo.precioBase!.toStringAsFixed(2)}')),
+                    IconButton(
+                      icon: Icon(Icons.edit),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TipoForm(tipo: tipo),
+                          ),
+                        ).then((result) {
+                          if (result == true) _loadTipos();
+                        });
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () {
+                        if (tipo.id != null) {
+                          _deleteTipo(tipo.id!);
+                        }
+                      },
+                    ),
+                  ],
                 ),
-                IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    if (tipo.id != null) {
-                      _deleteTipo(tipo.id!);
-                    }
-                  },
-                ),
-              ],
-            ),
-          );
-        },
-      ),
+              );
+            },
+          ),
     );
   }
 }

@@ -44,7 +44,7 @@ class _ReservacionFormState extends State<ReservacionForm> {
   void initState() {
     super.initState();
     _reservacion = widget.reservacion ?? Reservacion(
-      cliente: Cliente(nombre: '', email: '', telefono: ''),
+      cliente: Cliente(nombre: '', correo: '', telefono: ''),
       sucursal: Sucursal(nombre: '', direccion: null, telefono: ''),
       salon: Salon(nombre: '', descripcion: '', capacidad: 0, sucursalId: 0),
       mesa: Mesa(numero: '0', capacidad: 0, salonId: 0),

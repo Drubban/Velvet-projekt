@@ -83,38 +83,42 @@ class _SucursalesViewState extends State<SucursalesView> {
       floatingActionButton: FloatingActionButton(
         onPressed: _addSucursal,
         child: Icon(Icons.add),
+        tooltip: 'Agregar sucursal',
       ),
-      body: ListView.builder(
-        itemCount: _sucursales.length,
-        itemBuilder: (context, index) {
-          final sucursal = _sucursales[index];
-          return ListTile(
-            title: Text(sucursal.nombre),
-            subtitle: Text(sucursal.direccion?.toString() ?? 'Sin dirección'),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    _editSucursal(sucursal);
-                  },
+      body: _sucursales.isEmpty
+          ? Center(child: Text('No hay registros', style: TextStyle(color: Colors.grey)))
+          : ListView.builder(
+            itemCount: _sucursales.length,
+            itemBuilder: (context, index) {
+              final sucursal = _sucursales[index];
+              return ListTile(
+                title: Text(sucursal.nombre),
+                subtitle: Text(sucursal.direccion?.toString() ?? 'Sin dirección'),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.edit),
+                      onPressed: () {
+                        _editSucursal(sucursal);
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () {
+                        if (sucursal.id != null) {
+                          _deleteSucursal(sucursal.id!);
+                        }
+                      },
+                    ),
+                  ],
                 ),
-                IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    if (sucursal.id != null) {
-                      _deleteSucursal(sucursal.id!);
-                    }
-                  },
-                ),
-              ],
-            ),
-            onTap: () {
+                onTap: () {
+                  // Mostrar detalles si se requiere
+                },
+              );
             },
-          );
-        },
-      ),
+          ),
     );
   }
 }

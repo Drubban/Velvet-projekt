@@ -63,52 +63,54 @@ class _ReservacionesViewState extends State<ReservacionesView> {
           ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: _reservaciones.length,
-        itemBuilder: (context, index) {
-          final reservacion = _reservaciones[index];
-          return Card(
-            child: ListTile(
-              title: Text('Reservación #${reservacion.id}'),
-              subtitle: Text('Cliente: ${reservacion.cliente?.nombre} - Fecha: ${reservacion.fecha}'),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.visibility),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ReservacionDetails(reservacion: reservacion),
+      body: _reservaciones.isEmpty
+          ? Center(child: Text('No hay registros', style: TextStyle(color: Colors.grey)))
+          : ListView.builder(
+              itemCount: _reservaciones.length,
+              itemBuilder: (context, index) {
+                final reservacion = _reservaciones[index];
+                return Card(
+                  child: ListTile(
+                    title: Text('Reservación #${reservacion.id}'),
+                    subtitle: Text('Cliente: ${reservacion.cliente?.nombre} - Fecha: ${reservacion.fecha}'),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.visibility),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ReservacionDetails(reservacion: reservacion),
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.edit),
-                    onPressed: () async {
-                      final result = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ReservacionForm(reservacion: reservacion),
+                        IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: () async {
+                            final result = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ReservacionForm(reservacion: reservacion),
+                              ),
+                            );
+                            if (result == true) _loadReservaciones();
+                          },
                         ),
-                      );
-                      if (result == true) _loadReservaciones();
-                    },
+                        IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () async {
+                            await _deleteReservacion(reservacion.id);
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                  IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () async {
-                      await _deleteReservacion(reservacion.id);
-                    },
-                  ),
-                ],
-              ),
+                );
+              },
             ),
-          );
-        },
-      ),
     );
   }
 
