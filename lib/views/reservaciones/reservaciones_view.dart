@@ -71,21 +71,50 @@ class _ReservacionesViewState extends State<ReservacionesView> {
             child: ListTile(
               title: Text('Reservación #${reservacion.id}'),
               subtitle: Text('Cliente: ${reservacion.cliente?.nombre} - Fecha: ${reservacion.fecha}'),
-              trailing: IconButton(
-                icon: Icon(Icons.more_vert),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ReservacionDetails(reservacion: reservacion),
-                    ),
-                  );
-                },
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.visibility),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ReservacionDetails(reservacion: reservacion),
+                        ),
+                      );
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.edit),
+                    onPressed: () async {
+                      final result = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ReservacionForm(reservacion: reservacion),
+                        ),
+                      );
+                      if (result == true) _loadReservaciones();
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () async {
+                      await _deleteReservacion(reservacion.id);
+                    },
+                  ),
+                ],
               ),
             ),
           );
         },
       ),
     );
+  }
+
+  Future<void> _deleteReservacion(int? id) async {
+    if (id == null) return;
+    await _reservacionService.deleteReservacion(id);
+    await _loadReservaciones();
   }
 }

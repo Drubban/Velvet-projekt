@@ -37,6 +37,29 @@ class _TiposReservacionViewState extends State<TiposReservacionView> {
       _loadTipos();
     }
   }
+  Future<void> _deleteTipo(int id) async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Confirmar eliminación'),
+        content: Text('¿Deseas eliminar este tipo de reservación?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text('Eliminar'),
+          ),
+        ],
+      ),
+    );
+    if (confirm == true) {
+      await _tipoService.deleteTipoReservacion(id);
+      _loadTipos();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +94,14 @@ class _TiposReservacionViewState extends State<TiposReservacionView> {
                     ).then((result) {
                       if (result == true) _loadTipos();
                     });
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    if (tipo.id != null) {
+                      _deleteTipo(tipo.id!);
+                    }
                   },
                 ),
               ],

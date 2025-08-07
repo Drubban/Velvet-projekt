@@ -46,66 +46,90 @@ class DireccionService {
   // ===== Operaciones CRUD ===== //
 
   Future<int> createDireccion(Direccion direccion) async {
-    final db = await _db;
-    return await db.insert(
-      'direcciones',
-      direccion.toJson(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    try {
+      final db = await _db;
+      return await db.insert(
+        'direcciones',
+        direccion.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    } catch (e) {
+      throw Exception('Error al crear dirección: $e');
+    }
   }
 
   Future<List<Direccion>> getAllDirecciones() async {
-    final db = await _db;
-    final List<Map<String, dynamic>> maps = await db.query('direcciones');
-    return List.generate(maps.length, (i) => Direccion.fromJson(maps[i]));
+    try {
+      final db = await _db;
+      final List<Map<String, dynamic>> maps = await db.query('direcciones');
+      return List.generate(maps.length, (i) => Direccion.fromJson(maps[i]));
+    } catch (e) {
+      throw Exception('Error al obtener direcciones: $e');
+    }
   }
 
   Future<Direccion?> getDireccionById(int id) async {
-    final db = await _db;
-    final List<Map<String, dynamic>> maps = await db.query(
-      'direcciones',
-      where: 'id = ?',
-      whereArgs: [id],
-      limit: 1,
-    );
-    return maps.isNotEmpty ? Direccion.fromJson(maps.first) : null;
+    try {
+      final db = await _db;
+      final List<Map<String, dynamic>> maps = await db.query(
+        'direcciones',
+        where: 'id = ?',
+        whereArgs: [id],
+        limit: 1,
+      );
+      return maps.isNotEmpty ? Direccion.fromJson(maps.first) : null;
+    } catch (e) {
+      throw Exception('Error al obtener dirección por ID: $e');
+    }
   }
 
   Future<int> updateDireccion(Direccion direccion) async {
-    final db = await _db;
-    return await db.update(
-      'direcciones',
-      direccion.toJson(),
-      where: 'id = ?',
-      whereArgs: [direccion.id],
-    );
+    try {
+      final db = await _db;
+      return await db.update(
+        'direcciones',
+        direccion.toJson(),
+        where: 'id = ?',
+        whereArgs: [direccion.id],
+      );
+    } catch (e) {
+      throw Exception('Error al actualizar dirección: $e');
+    }
   }
 
   Future<int> deleteDireccion(int id) async {
-    final db = await _db;
-    return await db.delete(
-      'direcciones',
-      where: 'id = ?',
-      whereArgs: [id],
-    );
+    try {
+      final db = await _db;
+      return await db.delete(
+        'direcciones',
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+    } catch (e) {
+      throw Exception('Error al borrar dirección: $e');
+    }
   }
 
   Future<List<Direccion>> searchDirecciones(String query) async {
-    final db = await _db;
-    final List<Map<String, dynamic>> maps = await db.query(
-      'direcciones',
-      where: '''
-        calle LIKE ? OR 
-        numeroExterior LIKE ? OR
-        colonia LIKE ? OR 
-        municipio LIKE ? OR 
-        estado LIKE ? OR 
-        codigoPostal LIKE ? OR
-        pais LIKE ?
-      ''',
-      whereArgs: List.filled(7, '%$query%'),
-    );
-    return List.generate(maps.length, (i) => Direccion.fromJson(maps[i]));
+    try {
+      final db = await _db;
+      final List<Map<String, dynamic>> maps = await db.query(
+        'direcciones',
+        where: '''
+          calle LIKE ? OR 
+          numeroExterior LIKE ? OR
+          colonia LIKE ? OR 
+          municipio LIKE ? OR 
+          estado LIKE ? OR 
+          codigoPostal LIKE ? OR
+          pais LIKE ?
+        ''',
+        whereArgs: List.filled(7, '%$query%'),
+      );
+      return List.generate(maps.length, (i) => Direccion.fromJson(maps[i]));
+    } catch (e) {
+      throw Exception('Error al buscar direcciones: $e');
+    }
   }
 
   Future<void> close() async {

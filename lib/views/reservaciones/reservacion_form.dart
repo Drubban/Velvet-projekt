@@ -56,7 +56,7 @@ class _ReservacionFormState extends State<ReservacionForm> {
   }
 
   Future<void> _loadDependencias() async {
-    final clientes = await _clienteService.getClientes();
+    final clientes = await _clienteService.getAllClientes();
     final sucursales = await _sucursalService.getSucursales();
     final tipos = await _tipoService.getTiposReservacion();
     

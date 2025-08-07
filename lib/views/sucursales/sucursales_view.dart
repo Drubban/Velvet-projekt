@@ -38,6 +38,41 @@ class _SucursalesViewState extends State<SucursalesView> {
       _loadSucursales();
     }
   }
+  Future<void> _editSucursal(Sucursal sucursal) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SucursalForm(sucursal: sucursal),
+      ),
+    );
+    if (result == true) {
+      _loadSucursales();
+    }
+  }
+
+  Future<void> _deleteSucursal(int id) async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Confirmar eliminación'),
+        content: Text('¿Estás seguro de que deseas eliminar esta sucursal?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text('Eliminar'),
+          ),
+        ],
+      ),
+    );
+    if (confirm == true) {
+      await _sucursalService.deleteSucursal(id);
+      _loadSucursales();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,14 +91,26 @@ class _SucursalesViewState extends State<SucursalesView> {
           return ListTile(
             title: Text(sucursal.nombre),
             subtitle: Text(sucursal.direccion?.toString() ?? 'Sin dirección'),
-            trailing: IconButton(
-              icon: Icon(Icons.edit),
-              onPressed: () {
-                // Implementar edición
-              },
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    _editSucursal(sucursal);
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    if (sucursal.id != null) {
+                      _deleteSucursal(sucursal.id!);
+                    }
+                  },
+                ),
+              ],
             ),
             onTap: () {
-              // Mostrar detalles
             },
           );
         },

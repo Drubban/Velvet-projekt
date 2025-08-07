@@ -19,7 +19,7 @@ class _ClientesViewState extends State<ClientesView> {
   }
 
   Future<void> _loadClientes() async {
-    final clientes = await _clienteService.getClientes();
+    final clientes = await _clienteService.getAllClientes();
     setState(() {
       _clientes = clientes;
     });
@@ -30,12 +30,20 @@ class _ClientesViewState extends State<ClientesView> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Clientes'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () async {
+              await _showClienteForm(context);
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: DataTable(
           columns: const [
             DataColumn(label: Text('Nombre')),
-            DataColumn(label: Text('Email')),
+            DataColumn(label: Text('Correo')),
             DataColumn(label: Text('Teléfono')),
             DataColumn(label: Text('Acciones')),
           ],
@@ -59,8 +67,14 @@ class _ClientesViewState extends State<ClientesView> {
                   ),
                   IconButton(
                     icon: Icon(Icons.edit),
-                    onPressed: () {
-                      // Implementar edición
+                    onPressed: () async {
+                      await _showClienteForm(context, cliente: cliente);
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () async {
+                      await _deleteCliente(cliente.id);
                     },
                   ),
                 ],
@@ -70,5 +84,72 @@ class _ClientesViewState extends State<ClientesView> {
         ),
       ),
     );
+  }
+
+  Future<void> _showClienteForm(BuildContext context, {Cliente? cliente}) async {
+    final nombreController = TextEditingController(text: cliente?.nombre ?? '');
+    final correoController = TextEditingController(text: cliente?.email ?? '');
+    final telefonoController = TextEditingController(text: cliente?.telefono ?? '');
+    // final direccionController = TextEditingController(text: cliente?.direccion ?? '');
+
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(cliente == null ? 'Nuevo Cliente' : 'Editar Cliente'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: nombreController,
+                  decoration: InputDecoration(labelText: 'Nombre'),
+                ),
+                TextField(
+                  controller: correoController,
+                  decoration: InputDecoration(labelText: 'Correo'),
+                ),
+                TextField(
+                  controller: telefonoController,
+                  decoration: InputDecoration(labelText: 'Teléfono'),
+                ),
+                // Dirección eliminada porque el modelo no la tiene
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: Text('Cancelar'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            ElevatedButton(
+              child: Text(cliente == null ? 'Guardar' : 'Actualizar'),
+              onPressed: () async {
+                final nuevoCliente = Cliente(
+                  id: cliente?.id,
+                  nombre: nombreController.text,
+                  email: correoController.text,
+                  telefono: telefonoController.text,
+                  // dirección eliminada porque el modelo no la tiene
+                );
+                if (cliente == null) {
+                  await _clienteService.createCliente(nuevoCliente);
+                } else {
+                  await _clienteService.updateCliente(nuevoCliente);
+                }
+                Navigator.of(context).pop();
+                await _loadClientes();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _deleteCliente(int? id) async {
+    if (id == null) return;
+    await _clienteService.deleteCliente(id);
+    await _loadClientes();
   }
 }

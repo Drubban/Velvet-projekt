@@ -8,6 +8,9 @@ class ClienteDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Simulación de historial vacío, reemplaza por tu lógica real
+    final List historialReservaciones = [];
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Detalles del Cliente'),
@@ -23,7 +26,10 @@ class ClienteDetails extends StatelessWidget {
             if (cliente.telefono != null) Text('Teléfono: ${cliente.telefono}'),
             SizedBox(height: 20),
             Text('Historial de Reservaciones', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            // Aquí iría la lista de reservaciones del cliente
+            SizedBox(height: 8),
+            if (historialReservaciones.isEmpty)
+              Text('No hay registros', style: TextStyle(color: Colors.grey)),
+            // Si tienes datos, aquí iría la lista
           ],
         ),
       ),
